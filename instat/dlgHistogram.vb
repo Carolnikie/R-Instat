@@ -85,9 +85,12 @@ Public Class dlgHistogram
         dctStats.Add("Scaled Fractions", "stat(count/max(count))")
         ucrInputStats.SetDropDownStyleAsNonEditable()
         ucrInputStats.SetItems(dctStats)
-        ucrInputStats.AddToLinkedControls(ucrChkPercentages, {"Scaled Fractions"}, bNewLinkedAddRemoveParameter:=True, bNewLinkedHideIfParameterMissing:=True)
+        ucrInputStats.AddToLinkedControls(ucrChkPercentages, {"Fractions"}, bNewLinkedAddRemoveParameter:=True, bNewLinkedHideIfParameterMissing:=True)
 
         ucrChkPercentages.SetText("percentages")
+        ucrChkPercentages.AddParameterPresentCondition(True, "labels", True)
+        ucrChkPercentages.AddParameterPresentCondition(False, "labels", False)
+
 
         ucrVariablesAsFactorforHist.SetParameter(New RParameter("x", 0))
         ucrVariablesAsFactorforHist.SetFactorReceiver(ucrFactorReceiver)
@@ -280,7 +283,7 @@ Public Class dlgHistogram
         SetDialogOptions()
     End Sub
 
-    Private Sub Adding_Percentages(ucrChangedControl As ucrCore) Handles ucrInputStats.ControlValueChanged
+    Private Sub Adding_Percentages(ucrChangedControl As ucrCore) Handles ucrInputStats.ControlValueChanged, ucrChkPercentages.ControlValueChanged
         If ucrInputStats.GetText() = "Fractions" Then
             ucrChkPercentages.Visible = True
             If ucrChkPercentages.Checked Then
